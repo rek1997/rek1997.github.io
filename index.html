@@ -1,23 +1,241 @@
-<!DOCTYPE html>
 <html>
 
 <head>
-	<title>Mind, Money, Maternity Alpha</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!-- styleSheets -->
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
-	<link rel="stylesheet" href="interactiveMap.css" />
-	<!-- scripts -->
-	<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
-    <script src=baseMap.js></script>
-
+    <meta charset="UTF-8">
+    <title>Mind Money Maternity Alpha</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="leaflet/leaflet.css" />
+    <link rel="stylesheet" href="baseMap/baseMap.css" />
+    <link rel="stylesheet" href="d3.parcoords/d3.parcoords.css" />
+    <!-- Scripts -->
+    <script src="leaflet/leaflet.js"></script>
+    <script src="baseMap/baseMap.js"></script>
+    <script src="d3.parcoords/d3.parcoords.js"></script>
 </head>
 
 <body>
-	<div id="map"></div>
+    <div id="mapDiv"></div>
 
-	<div id="svgHolderDiv"> </div>
+    <div id="example1" class="parcoords">
+        <canvas class="marks" width="722" height="166" style="margin-top: 24px; margin-left: 0px; width: 722px; height: 166px;"></canvas>
+        <canvas class="foreground" width="722" height="166" style="margin-top: 24px; margin-left: 0px; width: 722px; height: 166px;"></canvas>
+        <canvas class="brushed" width="722" height="166" style="margin-top: 24px; margin-left: 0px; width: 722px; height: 166px;"></canvas>
+        <canvas class="highlight" width="722" height="166" style="margin-top: 24px; margin-left: 0px; width: 722px; height: 166px;"></canvas>
+        <svg width="720" height="200" style="font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 14px; line-height: normal; font-family: sans-serif; position: absolute;">
+            <g transform="translate(0,24)">
+                <g class="dimension" transform="translate(51.42857142857143)" style="cursor: pointer;">
+                    <g class="axis" transform="translate(0,0)">
+                        <g class="tick" transform="translate(0,160.63829787234044)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">10</text>
+                        </g>
+                        <g class="tick" transform="translate(0,117.02127659574467)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">20</text>
+                        </g>
+                        <g class="tick" transform="translate(0,73.40425531914894)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">30</text>
+                        </g>
+                        <g class="tick" transform="translate(0,29.7872340425532)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">40</text>
+                        </g>
+                        <path class="domain" d="M0,1H0V165H0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></path>
+                        <text text-anchor="middle" y="0" transform="translate(0,-5) rotate(0)" x="0" class="label">%Below Pvty</text>
+                    </g>
+                    <g class="brush" style="pointer-events: all; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+                        <rect class="background" y="1" height="164" x="-15" width="30" style="cursor: crosshair; fill: transparent;"></rect>
+                        <rect class="extent" y="0" height="0" x="-15" width="30" style="cursor: move; fill: rgba(255, 255, 255, 0.25); stroke: rgba(0, 0, 0, 0.6);"></rect>
+                        <g class="resize n" transform="translate(0,0)" style="cursor: ns-resize; display: none;">
+                            <rect y="-3" width="30" height="6" x="-15" style="fill: rgba(0, 0, 0, 0.1);"></rect>
+                        </g>
+                        <g class="resize s" transform="translate(0,0)" style="cursor: ns-resize; display: none;">
+                            <rect y="-3" width="30" height="6" x="-15" style="fill: rgba(0, 0, 0, 0.1);"></rect>
+                        </g>
+                    </g>
+                </g>
+                <g class="dimension" transform="translate(257.14285714285717)" style="cursor: pointer;">
+                    <g class="axis" transform="translate(0,0)">
+                        <g class="tick" transform="translate(0,160.63829787234044)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">10</text>
+                        </g>
+                        <g class="tick" transform="translate(0,117.02127659574467)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">20</text>
+                        </g>
+                        <g class="tick" transform="translate(0,73.40425531914894)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">30</text>
+                        </g>
+                        <g class="tick" transform="translate(0,29.7872340425532)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">40</text>
+                        </g>
+                        <path class="domain" d="M0,1H0V165H0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></path>
+                        <text text-anchor="middle" y="0" transform="translate(0,-5) rotate(0)" x="0" class="label">%High School</text>
+                    </g>
+                    <g class="brush" style="pointer-events: all; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+                        <rect class="background" y="1" height="164" x="-15" width="30" style="cursor: crosshair; fill: transparent;"></rect>
+                        <rect class="extent" y="0" height="0" x="-15" width="30" style="cursor: move; fill: rgba(255, 255, 255, 0.25); stroke: rgba(0, 0, 0, 0.6);"></rect>
+                        <g class="resize n" transform="translate(0,0)" style="cursor: ns-resize; display: none;">
+                            <rect y="-3" width="30" height="6" x="-15" style="fill: rgba(0, 0, 0, 0.1);"></rect>
+                        </g>
+                        <g class="resize s" transform="translate(0,0)" style="cursor: ns-resize; display: none;">
+                            <rect y="-3" width="30" height="6" x="-15" style="fill: rgba(0, 0, 0, 0.1);"></rect>
+                        </g>
+                    </g>
+                </g>
+                <g class="dimension" transform="translate(360)" style="cursor: pointer;">
+                    <g class="axis" transform="translate(0,0)">
+                        <g class="tick" transform="translate(0,160.63829787234044)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">20</text>
+                        </g>
+                        <g class="tick" transform="translate(0,117.02127659574467)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">40</text>
+                        </g>
+                        <g class="tick" transform="translate(0,73.40425531914894)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">60</text>
+                        </g>
+                        <g class="tick" transform="translate(0,29.7872340425532)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">80</text>
+                        </g>
+                        <path class="domain" d="M0,1H0V165H0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></path>
+                        <text text-anchor="middle" y="0" transform="translate(0,-5) rotate(0)" x="0" class="label">%Some College</text>
+                    </g>
+                    <g class="brush" style="pointer-events: all; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+                        <rect class="background" y="1" height="164" x="-15" width="30" style="cursor: crosshair; fill: transparent;"></rect>
+                        <rect class="extent" y="0" height="0" x="-15" width="30" style="cursor: move; fill: rgba(255, 255, 255, 0.25); stroke: rgba(0, 0, 0, 0.6);"></rect>
+                        <g class="resize n" transform="translate(0,0)" style="cursor: ns-resize; display: none;">
+                            <rect y="-3" width="30" height="6" x="-15" style="fill: rgba(0, 0, 0, 0.1);"></rect>
+                        </g>
+                        <g class="resize s" transform="translate(0,0)" style="cursor: ns-resize; display: none;">
+                            <rect y="-3" width="30" height="6" x="-15" style="fill: rgba(0, 0, 0, 0.1);"></rect>
+                        </g>
+                    </g>
+                </g>
+                <g class="dimension" transform="translate(462.8571428571429)" style="cursor: pointer;">
+                    <g class="axis" transform="translate(0,0)">
+                        <g class="tick" transform="translate(0,160.63829787234044)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">10</text>
+                        </g>
+                        <g class="tick" transform="translate(0,117.02127659574467)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">20</text>
+                        </g>
+                        <g class="tick" transform="translate(0,73.40425531914894)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">30</text>
+                        </g>
+                        <g class="tick" transform="translate(0,29.7872340425532)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">40</text>
+                        </g>
+                        <path class="domain" d="M0,1H0V165H0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></path>
+                        <text text-anchor="middle" y="0" transform="translate(0,-5) rotate(0)" x="0" class="label">%Bachelor</text>
+                    </g>
+                    <g class="brush" style="pointer-events: all; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+                        <rect class="background" y="1" height="164" x="-15" width="30" style="cursor: crosshair; fill: transparent;"></rect>
+                        <rect class="extent" y="0" height="0" x="-15" width="30" style="cursor: move; fill: rgba(255, 255, 255, 0.25); stroke: rgba(0, 0, 0, 0.6);"></rect>
+                        <g class="resize n" transform="translate(0,0)" style="cursor: ns-resize; display: none;">
+                            <rect y="-3" width="30" height="6" x="-15" style="fill: rgba(0, 0, 0, 0.1);"></rect>
+                        </g>
+                        <g class="resize s" transform="translate(0,0)" style="cursor: ns-resize; display: none;">
+                            <rect y="-3" width="30" height="6" x="-15" style="fill: rgba(0, 0, 0, 0.1);"></rect>
+                        </g>
+                    </g>
+                </g>
+                <g class="dimension" transform="translate(462.8571428571429)" style="cursor: pointer;">
+                    <g class="axis" transform="translate(0,0)">
+                        <g class="tick" transform="translate(0,160.63829787234044)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">2</text>
+                        </g>
+                        <g class="tick" transform="translate(0,117.02127659574467)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">4</text>
+                        </g>
+                        <g class="tick" transform="translate(0,73.40425531914894)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">6</text>
+                        </g>
+                        <g class="tick" transform="translate(0,29.7872340425532)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">8</text>
+                        </g>
+                        <g class="tick" transform="translate(0,29.7872340425532)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">10</text>
+                        </g>
+                        <path class="domain" d="M0,1H0V165H0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></path>
+                        <text text-anchor="middle" y="0" transform="translate(0,-5) rotate(0)" x="0" class="label">%Bachelor</text>
+                    </g>
+                    <g class="brush" style="pointer-events: all; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+                        <rect class="background" y="1" height="164" x="-15" width="30" style="cursor: crosshair; fill: transparent;"></rect>
+                        <rect class="extent" y="0" height="0" x="-15" width="30" style="cursor: move; fill: rgba(255, 255, 255, 0.25); stroke: rgba(0, 0, 0, 0.6);"></rect>
+                        <g class="resize n" transform="translate(0,0)" style="cursor: ns-resize; display: none;">
+                            <rect y="-3" width="30" height="6" x="-15" style="fill: rgba(0, 0, 0, 0.1);"></rect>
+                        </g>
+                        <g class="resize s" transform="translate(0,0)" style="cursor: ns-resize; display: none;">
+                            <rect y="-3" width="30" height="6" x="-15" style="fill: rgba(0, 0, 0, 0.1);"></rect>
+                        </g>
+                    </g>
+                </g>
+                <g class="dimension" transform="translate(668.5714285714286)" style="cursor: pointer;">
+                    <g class="axis" transform="translate(0,0)">
+                        <g class="tick" transform="translate(0,165)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">70</text>
+                        </g>
+                        <g class="tick" transform="translate(0,137.66666666666666)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">72</text>
+                        </g>
+                        <g class="tick" transform="translate(0,110.33333333333334)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">74</text>
+                        </g>
+                        <g class="tick" transform="translate(0,83)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">76</text>
+                        </g>
+                        <g class="tick" transform="translate(0,55.66666666666667)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">78</text>
+                        </g>
+                        <g class="tick" transform="translate(0,28.333333333333325)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">80</text>
+                        </g>
+                        <g class="tick" transform="translate(0,1)" style="opacity: 1;">
+                            <line x2="-6" y2="0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></line>
+                            <text dy=".32em" x="-9" y="0" style="text-anchor: end;">82</text>
+                        </g>
+                        <path class="domain" d="M0,1H0V165H0" style="fill: none; stroke: rgb(34, 34, 34); shape-rendering: crispEdges;"></path>
+                        <text text-anchor="middle" y="0" transform="translate(0,-5) rotate(0)" x="0" class="label">TPR Rate per 100k</text>
+                    </g>
+                    <g class="brush" style="pointer-events: all; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);">
+                        <rect class="background" y="1" height="164" x="-15" width="30" style="cursor: crosshair; fill: transparent;"></rect>
+                        <rect class="extent" y="0" height="0" x="-15" width="30" style="cursor: move; fill: rgba(255, 255, 255, 0.25); stroke: rgba(0, 0, 0, 0.6);"></rect>
+                        <g class="resize n" transform="translate(0,0)" style="cursor: ns-resize; display: none;">
+                            <rect y="-3" width="30" height="6" x="-15" style="fill: rgba(0, 0, 0, 0.1);"></rect>
+                        </g>
+                        <g class="resize s" transform="translate(0,0)" style="cursor: ns-resize; display: none;">
+                            <rect y="-3" width="30" height="6" x="-15" style="fill: rgba(0, 0, 0, 0.1);"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </svg>
+    </div>
+
+
 </body>
 
 </html>
