@@ -6,14 +6,47 @@ var map;
 // control that shows state info on hover
 var info = L.control();
 
-//Main
-window.onload = function() {
+window.onload = function () {
     renderMainMap();
+}
+
+function triggerMapHighlight(stateName) {
+    var layers = geojson.getLayers();
+
+    for (var i = 0; i < layers.length; i++) {
+        if (layers[i].feature.properties.name === stateName) {
+            var layer = layers[i];
+
+            layer.setStyle({
+                weight: 5,
+                color: '#666',
+                dashArray: '',
+                fillOpacity: 0.7
+            });
+        
+            if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+                layer.bringToFront();
+            }
+        
+            info.update(layer.feature.properties);
+        }
+    }
+}
+function triggerMapReset(stateName) {
+    var layers = geojson.getLayers();
+
+    for (var i = 0; i < layers.length; i++) {
+        if (layers[i].feature.properties.name === stateName) {
+            var layer = layers[i];
+            geojson.resetStyle(layer);
+            info.update();
+        }
+    }
 }
 
 function renderMainMap() {
 
- map = L.map('map').setView([37.8, -96], 4);
+    map = L.map('map').setView([37.8, -96], 4);
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         maxZoom: 18,
@@ -22,6 +55,8 @@ function renderMainMap() {
         'Imagery © <a href="http://mapbox.com">Mapbox</a>',
         id: 'mapbox.light'
     }).addTo(map);
+
+    info.addTo(map);
 
     geojson = L.geoJson(statesData, {
         style: style,
@@ -53,9 +88,8 @@ function renderMainMap() {
     };
 
     legend.addTo(map);
- 
-    //info.addTo(map);
 }
+
 
 //When adding the info
 info.onAdd = function (map) {
@@ -68,12 +102,11 @@ info.onAdd = function (map) {
 
 //Update the info based on what state user has clicked on
 info.update = function (properties) {
-    var name = properties.name;
-    var data = properties.pctTPR;
     this._div.innerHTML = '<h4>Education, Poverty, and Teen Pregnancy Rates</h4>' + (properties ?
-        '<b>' + name + '</b><br />' + data + ' people / mi<sup>2</sup>'
+        '<b>' + properties.name + '</b><br />' + properties.TPR + ' people / mi<sup>2</sup>'
         : 'Hover over a state');
 };
+
 
 // get color depending on population TPR value
 function getColor(d) {
@@ -116,6 +149,7 @@ function highlightFeature(e) {
 
     triggerBarHighlight(layer.feature.properties.name);
 }
+
 
 function resetHighlight(e) {
     geojson.resetStyle(e.target);
