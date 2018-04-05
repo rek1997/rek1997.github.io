@@ -7,7 +7,8 @@ var map;
 var info = L.control();
 
 window.onload = function () {
-    renderMainMap();
+    renderMyMap();
+    renderMyChart();
 }
 
 function triggerMapHighlight(stateName) {
@@ -44,7 +45,7 @@ function triggerMapReset(stateName) {
     }
 }
 
-function renderMainMap() {
+function renderMyMap() {
 
     map = L.map('map').setView([37.8, -96], 4);
 
@@ -56,8 +57,10 @@ function renderMainMap() {
         id: 'mapbox.light'
     }).addTo(map);
 
+    // info is declared as a global varialbe, outside the function assigned to the window.onload  
     info.addTo(map);
 
+    //geojson is declared as a global varialbe, outside the function assigned to the window.onload  
     geojson = L.geoJson(statesData, {
         style: style,
         onEachFeature: onEachFeature
@@ -95,20 +98,20 @@ function renderMainMap() {
 info.onAdd = function (map) {
     //"this" returns to info. 
     this._div = L.DomUtil.create('div', 'info');
-    //the following line calls info.update(properties) function. Again, this refers to 'info' here
+    //the following line calls info.update(props) function. Again, this refers to 'info' here
     this.update();
     return this._div;
 };
 
 //Update the info based on what state user has clicked on
-info.update = function (properties) {
-    this._div.innerHTML = '<h4>Education, Poverty, and Teen Pregnancy Rates</h4>' + (properties ?
-        '<b>' + properties.name + '</b><br />' + properties.TPR + ' people / mi<sup>2</sup>'
+info.update = function (props) {
+    this._div.innerHTML = '<h4>US Population Density</h4>' + (props ?
+        '<b>' + props.name + '</b><br />' + props.pctTPR + ' people / mi<sup>2</sup>'
         : 'Hover over a state');
 };
 
 
-// get color depending on population TPR value
+// get color depending on population density value
 function getColor(d) {
     return d > 1000 ? '#800026' :
         d > 500 ? '#BD0026' :
@@ -127,7 +130,7 @@ function style(feature) {
         color: 'white',
         dashArray: '3',
         fillOpacity: 0.7,
-        fillColor: getColor(feature.properties.TPR)
+        fillColor: getColor(feature.properties.density)
     };
 }
 

@@ -58,7 +58,7 @@ function renderMainMap() {
 }
 
 //When adding the info
-info.onAdd = function (map) {
+info.add = function (map) {
     //"this" returns to info. 
     this._div = L.DomUtil.create('div', 'info');
     //the following line calls info.update(properties) function. Again, this refers to 'info' here
@@ -112,14 +112,14 @@ function highlightFeature(e) {
         layer.bringToFront();
     }
 
-    info.update(layer.feature.properties);
+    info.add(layer.feature.properties);
 
     triggerBarHighlight(layer.feature.properties.name);
 }
 
 function resetHighlight(e) {
     geojson.resetStyle(e.target);
-    info.update();
+    info.add();
     triggerBarReset(e.target.feature.properties.name);
 }
 
