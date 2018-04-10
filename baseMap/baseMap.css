@@ -1,6 +1,6 @@
 #map {
     width: 100%;
-    height: 60%;
+    height: 55%;
 }
 
 #svgHolderDiv {
@@ -35,3 +35,8 @@
     margin-right: 8px;
     opacity: 0.7;
 }
+
+.container {
+    /* Optional - You can set a  min-height : whatever px; for reserving some space*/
+    overflow: auto; /* Optionally you can also use overflow: scroll; */
+ }
