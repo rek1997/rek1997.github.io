@@ -39,12 +39,12 @@
     <div id="map"></div>
     <!-- <div id="svgHolderDiv"> </div> -->
 
-    <div id="example" class="parcoords" style="height:240px;"></div>
+    <div id="plot" class="parcoords" style="height:240px;"></div>
     <div id="grid"></div>
     <div id="pager"></div>
 
     <script id="brushing">
-        var parcoords = d3.parcoords()("#example")
+        var parcoords = d3.parcoords()("#plot")
             .alpha(0.4)
             .mode("queue") // progressive rendering
             .height(d3.max([document.body.clientHeight - 326, 220]))
