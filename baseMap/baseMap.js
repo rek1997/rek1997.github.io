@@ -7,19 +7,21 @@ var map;
 var info = L.control();
 
 //Main
-window.onload = function() {
+window.onload = function () {
     renderMainMap();
+    showHide();
 }
 
 function renderMainMap() {
 
- map = L.map('map').setView([37.8, -96], 4);
+    map = L.map('map').setView([37.8, -96], 4);
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
         maxZoom: 18,
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+        attribution:
+            '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+            'Imagery © <a href="http://mapbox.com">Mapbox</a>, ' +
+            'Population data &copy; <a href="https://www.socialexplorer.com//">Social Explorer</a>',
         id: 'mapbox.light'
     }).addTo(map);
 
@@ -28,14 +30,12 @@ function renderMainMap() {
         onEachFeature: onEachFeature
     }).addTo(map);
 
-    map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
-
     var legend = L.control({ position: 'bottomright' });
 
     legend.onAdd = function (map) {
 
         var div = L.DomUtil.create('div', 'info legend'),
-            grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+            grades = [0, 10, 15, 20, 25, 30, 35, 40, 45, 50],
             labels = [],
             from, to;
 
@@ -53,8 +53,6 @@ function renderMainMap() {
     };
 
     legend.addTo(map);
- 
-    //info.addTo(map);
 }
 
 //When adding the info
@@ -62,14 +60,14 @@ info.add = function (map) {
     //"this" returns to info. 
     this._div = L.DomUtil.create('div', 'info');
     //the following line calls info.update(properties) function. Again, this refers to 'info' here
-    this.update();
+    //this.update();
     return this._div;
 };
 
 //Update the info based on what state user has clicked on
 info.update = function (properties) {
-    var name = properties.name;
-    var data = properties.pctTPR;
+    var name = properties.id;
+    var data = properties.TPR100k;
     this._div.innerHTML = '<h4>Education, Poverty, and Teen Pregnancy Rates</h4>' + (properties ?
         '<b>' + name + '</b><br />' + data + ' people / mi<sup>2</sup>'
         : 'Hover over a state');
@@ -77,14 +75,16 @@ info.update = function (properties) {
 
 // get color depending on population TPR value
 function getColor(d) {
-    return d > 1000 ? '#800026' :
-        d > 500 ? '#BD0026' :
-            d > 200 ? '#E31A1C' :
-                d > 100 ? '#FC4E2A' :
-                    d > 50 ? '#FD8D3C' :
-                        d > 20 ? '#FEB24C' :
-                            d > 10 ? '#FED976' :
-                                '#FFEDA0';
+    return d > 50 ? '#800026' :
+        d > 45 ? '#bd0026' :
+            d > 40 ? '#e31a1c' :
+                d > 35 ? '#fc4e2a' :
+                    d > 30 ? '#fd8d3c' :
+                        d > 25 ? '#feb24c' :
+                            d > 20 ? '#fed976' :
+                                d > 15 ? '#ffeda0' :
+                                    d > 10 ? '#ffffcc' :
+                                        '#ffffe5';
 }
 
 function style(feature) {
@@ -93,8 +93,8 @@ function style(feature) {
         opacity: 1,
         color: 'white',
         dashArray: '3',
-        fillOpacity: 0.7,
-        fillColor: getColor(feature.properties.TPR)
+        fillOpacity: 0.6,
+        fillColor: getColor(feature.properties.TPR100k)
     };
 }
 
@@ -105,7 +105,7 @@ function highlightFeature(e) {
         weight: 5,
         color: '#666',
         dashArray: '',
-        fillOpacity: 0.7
+        fillOpacity: 0.6
     });
 
     if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
@@ -114,13 +114,13 @@ function highlightFeature(e) {
 
     info.add(layer.feature.properties);
 
-    triggerBarHighlight(layer.feature.properties.name);
+    parcoords.highlight([layer.feature.properties]);
 }
 
 function resetHighlight(e) {
     geojson.resetStyle(e.target);
     info.add();
-    triggerBarReset(e.target.feature.properties.name);
+    parcoords.unhighlight();
 }
 
 function zoomToFeature(e) {
@@ -133,4 +133,16 @@ function onEachFeature(feature, layer) {
         mouseout: resetHighlight,
         click: zoomToFeature
     });
+}
+
+function showHide() {
+    var x = document.getElementById("grid");
+    var y = document.getElementById("pager");
+    if (x.style.display === "none" || y.style.display === "none") {
+        x.style.display = "block";
+        y.style.display = "block";
+    } else {
+        x.style.display = "none";
+        y.style.display = "none";
+    }
 }
