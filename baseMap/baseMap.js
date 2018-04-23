@@ -9,7 +9,7 @@ var info = L.control();
 //Main
 window.onload = function () {
     renderMainMap();
-    showHide();
+    document.body.scroll(0, 0);
 }
 
 function renderMainMap() {
@@ -25,6 +25,8 @@ function renderMainMap() {
         id: 'mapbox.light'
     }).addTo(map);
 
+    info.addTo(map);
+
     geojson = L.geoJson(statesData, {
         style: style,
         onEachFeature: onEachFeature
@@ -36,7 +38,7 @@ function renderMainMap() {
 
         var div = L.DomUtil.create('div', 'info legend'),
             grades = [0, 10, 15, 20, 25, 30, 35, 40, 45, 50],
-            labels = [],
+            labels = ["Teen", "Pregnancies", "Per 100k"],
             from, to;
 
         for (var i = 0; i < grades.length; i++) {
@@ -56,20 +58,18 @@ function renderMainMap() {
 }
 
 //When adding the info
-info.add = function (map) {
+info.onAdd = function (map) {
     //"this" returns to info. 
     this._div = L.DomUtil.create('div', 'info');
     //the following line calls info.update(properties) function. Again, this refers to 'info' here
-    //this.update();
+    this.update();
     return this._div;
 };
 
 //Update the info based on what state user has clicked on
 info.update = function (properties) {
-    var name = properties.id;
-    var data = properties.TPR100k;
-    this._div.innerHTML = '<h4>Education, Poverty, and Teen Pregnancy Rates</h4>' + (properties ?
-        '<b>' + name + '</b><br />' + data + ' people / mi<sup>2</sup>'
+    this._div.innerHTML = '<h4>Teen Pregnancy Rates</h4>' + (properties ?
+        '<b>' +  properties.id + '</b><br />' + properties.TPR100k + ' teen pregnancies per 100k'
         : 'Hover over a state');
 };
 
@@ -112,30 +112,27 @@ function highlightFeature(e) {
         layer.bringToFront();
     }
 
-    info.add(layer.feature.properties);
+    info.update(layer.feature.properties);
 
     parcoords.highlight([layer.feature.properties]);
+
 }
 
 function resetHighlight(e) {
     geojson.resetStyle(e.target);
-    info.add();
-    parcoords.unhighlight();
-}
 
-function zoomToFeature(e) {
-    map.fitBounds(e.target.getBounds());
+    info.update();
+    parcoords.unhighlight();
 }
 
 function onEachFeature(feature, layer) {
     layer.on({
         mouseover: highlightFeature,
-        mouseout: resetHighlight,
-        click: zoomToFeature
+        mouseout: resetHighlight
     });
 }
 
-function showHide() {
+function showHideGrid() {
     var x = document.getElementById("grid");
     var y = document.getElementById("pager");
     if (x.style.display === "none" || y.style.display === "none") {
@@ -145,4 +142,23 @@ function showHide() {
         x.style.display = "none";
         y.style.display = "none";
     }
+}
+
+function showHideVarInfo() {
+    var x = document.getElementById("varInfo");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}
+
+function showHideAppInfo() {
+    var x = document.getElementById("appInfo");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+    document.body.scroll(0, 0);
 }

@@ -2,7 +2,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Mind Money Maternity Beta</title>
+    <title>Mind Money Maternity</title>
 
     <!-- MAP -->
     <!-- Stylesheets -->
@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="lib/slickgrid/plot.css" type="text/css" />
     <link rel="stylesheet" href="lib/slickgrid/slick.pager.css" type="text/css" />
     <link rel="stylesheet" href="lib/style.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="lib/d3.parcoords.css">
+    <link rel="stylesheet" type="text/css" href="lib/d3.parcoords.css" />
     <!-- Scripts -->
     <script src="lib/slickgrid/jquery-1.7.min.js"></script>
     <script src="lib/slickgrid/jquery.event.drag-2.0.min.js"></script>
@@ -36,14 +36,47 @@
 </head>
 
 <body>
+    <header>
+        <h2>Mind, Money, and Maternity</h2>
+    </header>
+
     <div id="map"></div>
-    <button onclick="showHide()">Toggle Data Table</button>
+    
+    <button onclick="showHideGrid()">Toggle Data Table</button>
+    <button onclick="showHideVarInfo()">What do these variables mean?</button>
+    <button onclick="showHideAppInfo()">About</button>
+
+    <div id="varInfo" style="display:none">
+        <br>id is the name of the state.
+        <br>pctLESS is the percent of population who has attained LESS than a highschool education.
+        <br>pctHSCH is the percent of population who has attained a highschool education or GED.
+        <br>pctSCOL is the percent of population who has attained a two year degree, professional degree, or some college.
+        <br>pctBACH is the percent of population who has attained a bachelor's degree.
+        <br>pctMSTR is the percent of population who has attained a master's degree.
+        <br>pctPHD is the percent of population who has attained a PHd.
+        <br>pctPVRT is the percent of population below the state poverty line.
+        <br>TPR rate of teen pregnancies per 100,000.
+    </div>
+
+    <div id="appInfo" style="display:none">
+        <br><h3>Mind, Money, and Maternity</h1>
+        <a href=https://www.youtube.com/watch?v=YEXowjbU8As&feature=youtu.be>Video Tutorial</a>
+        <br>GEOG 5201 Geovisualization, Spring 2018
+        <br>The Ohio State University
+        <br>Morteza Karimzadeh
+        <br><h4>Created by:</h6>
+        William Kelly (<a href=kelly.1049@buckeyemail.osu.edu>kelly.1049@buckeyemail.osu.edu</a>), Wajihah Baig(<a href=baig.24@.osu.edu>baig.24@.osu.edu</a>), Rachel Katsman(<a href=katsman.6@osu.edu>katsman.6@osu.edu</a>)
+        <br><h4>Plugins Used</h6>
+        <a href=http://leafletjs.com>Leaflet</a>
+        <br><a href=https://d3js.org/>D3</a>
+        <br><a href=https://github.com/syntagmatic/parallel-coordinates>d3.parcoords</a>
+        <br><h4>Data Source</h6>
+        <a href=https://www.socialexplorer.com/>Social Explorer</a>
+    </div>
 
     <div id="plot" class="parcoords"></div>
-    <div id="grid"></div>
-    <div id="pager"></div>
-
-    
+    <div id="grid" style="display:none"></div>
+    <div id="pager" style="display:none"></div>
 
     <script id="brushing">
         var parcoords = d3.parcoords()("#plot")
